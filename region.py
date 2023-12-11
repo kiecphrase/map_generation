@@ -28,7 +28,14 @@ D = Desert
 #######################################################################################
 # Functions                                                                           #
 #######################################################################################
+'''
+generate a single "spot" based on whether or not the column is next to the ocean column
 
+t = boolean, whether or not the spot is next to the ocean column
+x = str, generated spot
+vals = list of ints, values that the generated value checks to determine the value of the spot. List is based off of above "Land Types" list
+choice = int, random number from 0 to 101, used to determine the value of the spot
+'''
 def generate_spot(t):
     x = ""
     vals = []
@@ -57,6 +64,14 @@ def generate_spot(t):
 
     return(x)
 
+'''
+generate a row of land, which contains 5 "spots" that can be unique.
+
+oceanRow = boolean, determines whether the row is entirely ocean or not (boarder row)
+oceanColumn = int, the column of the row that is ocean (boarder column)
+x = list, returned as generated row
+i = int, counter
+'''
 def generate_row(oceanRow, oceanColumn):
     x = []
     i = 0
@@ -82,6 +97,14 @@ def generate_row(oceanRow, oceanColumn):
 
     return(x)
 
+
+'''
+funciton to create an entire region based on the REGION class.
+
+rVal = int, the specific region that is to be generated (NE,NW,SW,SE)
+x = REGION, returned as generated region
+oceancolumn = int, uses the rVal to determine which column is a boarder column
+'''
 def create_region(rVal):
     x = REGION()
     x.r = rVal
