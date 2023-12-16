@@ -1,90 +1,133 @@
 import random as r, math as m
-import region
 
 #######################################################################################
 # Data                                                                                #
 #######################################################################################
 
-class ISLAND:
+class SIMPLEWORLD:
     def __init__(self):
         self.name = ""
-        self.latitude = 0
         self.percipitation = 0
-        self.regionNE = []
-        self.regionNW = []
-        self.regionSE = []
-        self.regionSW = []
+        self.land = []
 
     def __str__(self):
-        return f"name: {self.name} \nlatitude: {self.latitude} \npercipitation: {self.percipitation}"
+        return f"name: {self.name}"
+    
 
 #######################################################################################
 # Functions                                                                           #
 #######################################################################################
 
 '''
-generates name for island
+generate a blank map canvas that is an 18 * 18 grid
+
 '''
-def generate_name():
-    n = ""
-    l = r.randint(1,20)
+def simple_map_static():
+    x = []
+    i = 0
 
-    lower = "qwertyuiopasdfghjklzxcvbnm"
-    upper = "MNBVCXZLKJHGFDSAPOIUYTREWQ"
-
-    n = n + upper[m.trunc(len(upper) * r.random())]
+    while i < 18:
+        x.append(["Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z","Z"])
+        i+=1
     
-    counter = 1
-    while counter < l:
-        n = n + lower[m.trunc(len(lower) * r.random())]
-        counter += 1
-
-    return(n)
+    return x
 
 '''
-generates latitude for island. Temps for island based on latitude
+generate a blank map canvas that is a user defined size. (works best in multiples of 3)
+
+lat = the total amount of rows
+lng = the total amount of columns
+
 '''
-def lat():
-    return(r.randint(0,90))
+def simple_map_dynamic(lat,lng):
+    x = []
+    i = 0
 
+    while i < lat:
+        y = []
+        j = 0
 
-'''
-generates percipitation level for island:
+        while j < lng:
+            y.append("Z")
+            j+=1
 
-1 - infrequent annual percipitation
-2 - seasonal percipitation (rainy seasions and dry seasons)
-3 - monthly percipitation (~5 days a month on average recieve percipitation)
-4 - heavy monthly percipitation (~5-10 days a month on average recieve significant percipitation, other days may have some insignificant percipitation)
-5 - rainforest (rainforest-like conditions on the island)
-'''
-def perc():
-    return(r.randint(1,5))
-
-def generate_island():
-    x = ISLAND()
-    x.name = generate_name()
-    x.latitude = lat()
-    x.percipitation = perc()
-    x.regionNE = region.create_region(1)
-    x.regionNW = region.create_region(2)
-    x.regionSW = region.create_region(3)
-    x.regionSE = region.create_region(4)
+        x.append(y)
+        i+=1
 
     return x
 
+'''
+generate map canvas with ocean boarder. Size of map either based on static or dynamic map generation
+
+boo = boolean to determine static or dynamic map generation
+lat = total number of rows
+lng = total number of columns
+
+'''
+def with_ocean_boarder(boo, lat = 0, lng = 0):
+    i = 0
+
+    if boo:
+        x = simple_map_static()
+    else:
+        x = simple_map_dynamic(lat, lng)
+
+
+    for lattitudes in x:
+        
+        if i == 0 or i == lat-1:
+            j = 0
+            while j < len(lattitudes):
+                lattitudes[j] = "O"
+                j+=1
+
+            
+        else:
+            lattitudes[0] = "O"
+            lattitudes[len(lattitudes)-1] = "O"
+        
+        i += 1
+    
+    return x
 
 #######################################################################################
 # Testing                                                                             #
 #######################################################################################
-test_island = generate_island()
-print(test_island)
-print(f"{test_island.regionNW.one[0]} {test_island.regionNW.one[1]} {test_island.regionNW.one[2]} {test_island.regionNW.one[3]} {test_island.regionNW.one[4]} {test_island.regionNE.one[0]} {test_island.regionNE.one[1]} {test_island.regionNE.one[2]} {test_island.regionNE.one[3]} {test_island.regionNE.one[4]}")
-print(f"{test_island.regionNW.two[0]} {test_island.regionNW.two[1]} {test_island.regionNW.two[2]} {test_island.regionNW.two[3]} {test_island.regionNW.two[4]} {test_island.regionNE.two[0]} {test_island.regionNE.two[1]} {test_island.regionNE.two[2]} {test_island.regionNE.two[3]} {test_island.regionNE.two[4]}")
-print(f"{test_island.regionNW.three[0]} {test_island.regionNW.three[1]} {test_island.regionNW.three[2]} {test_island.regionNW.three[3]} {test_island.regionNW.three[4]} {test_island.regionNE.three[0]} {test_island.regionNE.three[1]} {test_island.regionNE.three[2]} {test_island.regionNE.three[3]} {test_island.regionNE.three[4]}")
-print(f"{test_island.regionNW.four[0]} {test_island.regionNW.four[1]} {test_island.regionNW.four[2]} {test_island.regionNW.four[3]} {test_island.regionNW.four[4]} {test_island.regionNE.four[0]} {test_island.regionNE.four[1]} {test_island.regionNE.four[2]} {test_island.regionNE.four[3]} {test_island.regionNE.four[4]}")
-print(f"{test_island.regionNW.five[0]} {test_island.regionNW.five[1]} {test_island.regionNW.five[2]} {test_island.regionNW.five[3]} {test_island.regionNW.five[4]} {test_island.regionNE.five[0]} {test_island.regionNE.five[1]} {test_island.regionNE.five[2]} {test_island.regionNE.five[3]} {test_island.regionNE.five[4]}")
-print(f"{test_island.regionSW.one[0]} {test_island.regionSW.one[1]} {test_island.regionSW.one[2]} {test_island.regionSW.one[3]} {test_island.regionSW.one[4]} {test_island.regionSE.one[0]} {test_island.regionSE.one[1]} {test_island.regionSE.one[2]} {test_island.regionSE.one[3]} {test_island.regionSE.one[4]}")
-print(f"{test_island.regionSW.two[0]} {test_island.regionSW.two[1]} {test_island.regionSW.two[2]} {test_island.regionSW.two[3]} {test_island.regionSW.two[4]} {test_island.regionSE.two[0]} {test_island.regionSE.two[1]} {test_island.regionSE.two[2]} {test_island.regionSE.two[3]} {test_island.regionSE.two[4]}")
-print(f"{test_island.regionSW.three[0]} {test_island.regionSW.three[1]} {test_island.regionSW.three[2]} {test_island.regionSW.three[3]} {test_island.regionSW.three[4]} {test_island.regionSE.three[0]} {test_island.regionSE.three[1]} {test_island.regionSE.three[2]} {test_island.regionSE.three[3]} {test_island.regionSE.three[4]}")
-print(f"{test_island.regionSW.four[0]} {test_island.regionSW.four[1]} {test_island.regionSW.four[2]} {test_island.regionSW.four[3]} {test_island.regionSW.four[4]} {test_island.regionSE.four[0]} {test_island.regionSE.four[1]} {test_island.regionSE.four[2]} {test_island.regionSE.four[3]} {test_island.regionSE.four[4]}")
-print(f"{test_island.regionSW.five[0]} {test_island.regionSW.five[1]} {test_island.regionSW.five[2]} {test_island.regionSW.five[3]} {test_island.regionSW.five[4]} {test_island.regionSE.five[0]} {test_island.regionSE.five[1]} {test_island.regionSE.five[2]} {test_island.regionSE.five[3]} {test_island.regionSE.five[4]}")
+
+print("18 x 18 world simple static map test")
+teest = simple_map_static()
+
+for t in teest:
+    print(t)
+
+print(" ")
+print("dynamic map test 18 x 18")
+peest = simple_map_dynamic(18,18)
+
+for p in peest:
+    print(p)
+
+print(" ")
+print("dynamic map test 13 x 7")
+geest = simple_map_dynamic(13,7)
+
+for g in geest:
+    print(g)
+
+print(" ")
+print("ocean boarder static map test")
+quest = with_ocean_boarder(True)
+for qu in quest:
+    print(qu)
+
+print(" ")
+print("ocean boarder dynamic map test 18 x 18")
+best = with_ocean_boarder(False, 18, 18)
+for b in best:
+    print(b)
+
+print(" ")
+print("ocean boarder dynamic map test 14 x 8")
+jest = with_ocean_boarder(False, 14, 8)
+for j in jest:
+    print(j)

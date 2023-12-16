@@ -1,4 +1,4 @@
-import world as w
+import island as w
 
 print("we will now generate a world for you!")
 user_in = str(input("name of file to create (include .txt): \n"))
