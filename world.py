@@ -1,5 +1,5 @@
 import random as r, math as m
-
+import landgrab as l
 #######################################################################################
 # Data                                                                                #
 #######################################################################################
@@ -64,11 +64,12 @@ lat = total number of rows
 lng = total number of columns
 
 '''
-def with_ocean_boarder(boo, lat = 0, lng = 0):
+def with_ocean_boarder(boo = True, lat = 0, lng = 0):
     i = 0
 
     if boo:
         x = simple_map_static()
+        lat = 18
     else:
         x = simple_map_dynamic(lat, lng)
 
@@ -88,6 +89,19 @@ def with_ocean_boarder(boo, lat = 0, lng = 0):
         
         i += 1
     
+    return x
+
+
+def generate_world():
+    x = SIMPLEWORLD()
+
+    x.land = with_ocean_boarder()
+
+    # intelligently generate land
+    hold = l.make(x.land)
+    x.land = hold[0]
+    x.percipitation = hold[1]
+
     return x
 
 #######################################################################################
@@ -131,3 +145,13 @@ print("ocean boarder dynamic map test 14 x 8")
 jest = with_ocean_boarder(False, 14, 8)
 for j in jest:
     print(j)
+
+print(" ")
+print("worl generation test with all in one function")
+
+funk = generate_world()
+
+funky = funk.land
+
+for f in funky:
+    print(f)
