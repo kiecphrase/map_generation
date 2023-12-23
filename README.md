@@ -8,7 +8,7 @@ Creating a TTRPG where you settle a tribe on a continent, need a way to generate
 
 ## How to
 
-run "main.py" and follow the instructions!
+run "world.py" and follow the instructions!
 
 ## Key
 

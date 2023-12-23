@@ -30,15 +30,15 @@ vals = weighted values for land generation
 '''
 def weighted(tiles=["O","O","O"]):
 
-    vals = [1,1,1,1,1,1,1] #ocean, lake, mountain, hills, forest, grassland, desert
+    vals = [55,1,1,1,1,1,1] #ocean, lake, mountain, hills, forest, grassland, desert
 
     for t in tiles:
         if t == "O":
-            gals = [3,1,2,2,1,1,1]
+            gals = [4,0,2,2,1,1,1]
         elif t == "L":
             gals = [1,3,2,2,2,2,1]
         elif t == "M":
-            gals = [1,2,3,2,1,1,1]
+            gals = [1,1,3,2,2,1,1]
         elif t == "H":
             gals = [1,1,2,2,1,1,1]
         elif t == "F":
